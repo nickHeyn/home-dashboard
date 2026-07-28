@@ -67,7 +67,7 @@ export async function getCalendarData(): Promise<Calendar> {
                     }
 
                     if(override) {
-                        resultingEvents.push(mapToCalendarEvent(override))
+                        resultingEvents.push(mapToCalendarEvent(override as VEvent))
                     }
                     else {
                         const instanceEnd = new Date(instanceStart.getTime() + duration)
