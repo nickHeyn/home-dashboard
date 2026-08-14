@@ -1,37 +1,47 @@
-'use client'
+"use client";
 
 import { useEffect, useState, useMemo } from "react";
 import { DateTime } from "luxon";
-import { CalDay } from "./types/calendar";
+import { CalDay, CalEvent } from "./types/calendar";
 import { Calendar } from "@/types/calendar";
 
 const NUM_DAYS = 5;
 
-
-export default function Dashboard()  {
+export default function Dashboard() {
   const [calData, setCalData] = useState<Calendar | null | undefined>();
 
   useEffect(() => {
-    fetch('/api/calendar')
-    .then(res => res.json())
-    .then(setCalData)
+    fetch("/api/calendar")
+      .then((res) => res.json())
+      .then(setCalData);
   }, []);
+
+  const getEventRangeString = (event: CalEvent) => {
+    if (event.isAllDayEvent) {
+      return "All Day";
+    }
+
+    if (event.end) {
+      return `${event.start.toLocaleString(DateTime.TIME_SIMPLE)} - ${event.end.toLocaleString(DateTime.TIME_SIMPLE)}`;
+    }
+
+    return `${event.start.toLocaleString(DateTime.TIME_SIMPLE)}`;
+  };
 
   const dayRanges = useMemo(() => {
     let current = DateTime.now();
-    const ranges = []
+    const ranges = [];
 
-    for(let i = 0; i < NUM_DAYS; i++) {
-        const start = current.startOf('day');
-        const end = current.endOf('day');
-        ranges.push({
-            start,
-            end,
-            dayTitle: current.toFormat('ccc LLL dd')
-            
-        });
+    for (let i = 0; i < NUM_DAYS; i++) {
+      const start = current.startOf("day");
+      const end = current.endOf("day");
+      ranges.push({
+        start,
+        end,
+        dayTitle: current.toFormat("ccc LLL dd"),
+      });
 
-        current = current.plus({days: 1}); 
+      current = current.plus({ days: 1 });
     }
 
     return ranges;
@@ -42,24 +52,25 @@ export default function Dashboard()  {
 
     const result: CalDay[] = [];
 
-    for(const range of dayRanges) {
-            const eventsOnThisDay = events
-                .map((ev) => {
-                    return {...ev,
-                    start: DateTime.fromJSDate(new Date(ev.start)),
-                    end: ev.end ? DateTime.fromJSDate(new Date(ev.end)) : undefined
-                }})
-                .filter(event => {
-                    const eventEnd = event.end ?? event.start;
-                    return event.start <= range.end && eventEnd >= range.start
-                })
-        result.push({
-            dayTitle: range.dayTitle,
-            start: range.start,
-            end: range.end,
-            events: eventsOnThisDay,
+    for (const range of dayRanges) {
+      const eventsOnThisDay = events
+        .map((ev) => {
+          return {
+            ...ev,
+            start: DateTime.fromJSDate(new Date(ev.start)),
+            end: ev.end ? DateTime.fromJSDate(new Date(ev.end)) : undefined,
+          };
+        })
+        .filter((event) => {
+          const eventEnd = event.end ?? event.start;
+          return event.start <= range.end && eventEnd >= range.start;
         });
-            
+      result.push({
+        dayTitle: range.dayTitle,
+        start: range.start,
+        end: range.end,
+        events: eventsOnThisDay,
+      });
     }
 
     return result;
@@ -68,28 +79,33 @@ export default function Dashboard()  {
   console.log(daysWithEvents);
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center font-sans">
-      <main className="flex flex-row flex-1 w-full items-center justify-between py-16 px-1 sm:items-start">
-        {daysWithEvents.map((day) => (
-            <div key={day.start.toISO()}>
-                <div>
-                    {day.dayTitle}
-                </div>
-                <ul>
-                    {day.events.map((dayEvent) => (
-                        <li key={dayEvent.start.toISO()}>
-                            <div>
-                                <span>{!dayEvent.isRecurring && dayEvent.end ? `${dayEvent.start.toLocaleString(DateTime.TIME_SIMPLE)} - ${dayEvent.end.toLocaleString(DateTime.TIME_SIMPLE)}` : 'All Day'}</span>
-                            </div>
-                            <div>
-                                {dayEvent.name}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+    <main className=" font-serif h-screen">
+      <div className="flex flex-row flex-1 w-full items-center justify-between py-16 px-1 sm:items-start h-full">
+        {daysWithEvents.map((day, index) => (
+          <div
+            key={day.start.toISO()}
+            className="flex flex-col w-full items-center justify-center h-full"
+          >
+            <span className="font-bold text-xl">{day.dayTitle}</span>
+            <ul
+              className={
+                index > 0
+                  ? "border-l-1 h-full border-gray-200 border-opacity-50 flex-1 min-w-0 w-full"
+                  : "h-full flex-1 min-w-0 w-full"
+              }
+            >
+              {day.events.map((dayEvent) => (
+                <li key={dayEvent.start.toISO()} className="py-2 px-4">
+                  <div>
+                    <span className="font-bold">{getEventRangeString(dayEvent)}</span>
+                  </div>
+                  <div>{dayEvent.name}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
