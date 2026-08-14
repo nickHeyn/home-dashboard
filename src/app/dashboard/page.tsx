@@ -63,7 +63,7 @@ export default function Dashboard() {
         })
         .filter((event) => {
           const eventEnd = event.end ?? event.start;
-          return event.start <= range.end && eventEnd >= range.start;
+          return event.start < range.end && eventEnd > range.start;
         });
       result.push({
         dayTitle: range.dayTitle,
@@ -86,7 +86,7 @@ export default function Dashboard() {
             key={day.start.toISO()}
             className="flex flex-col w-full items-center justify-center h-full"
           >
-            <span className="font-bold text-xl">{day.dayTitle}</span>
+            <span className="font-bold text-2xl">{day.dayTitle}</span>
             <ul
               className={
                 index > 0
