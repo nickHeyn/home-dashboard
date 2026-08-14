@@ -86,7 +86,7 @@ export default function Dashboard() {
             key={day.start.toISO()}
             className="flex flex-col w-full items-center justify-center h-full"
           >
-            <span className="font-bold text-2xl">{day.dayTitle}</span>
+            <span className="font-bold text-2xl underline">{day.dayTitle}</span>
             <ul
               className={
                 index > 0
@@ -94,8 +94,8 @@ export default function Dashboard() {
                   : "h-full flex-1 min-w-0 w-full"
               }
             >
-              {day.events.map((dayEvent) => (
-                <li key={dayEvent.start.toISO()} className="py-2 px-4">
+              {day.events.map((dayEvent, index) => (
+                <li key={index} className="py-2 px-4">
                   <div>
                     <span className="font-bold">{getEventRangeString(dayEvent)}</span>
                   </div>

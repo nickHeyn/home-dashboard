@@ -80,7 +80,15 @@ export async function getCalendarData(): Promise<Calendar> {
   }
 
   // sort events
-  resultingEvents.sort((a, b) => a.start.getTime() - b.start.getTime());
+  resultingEvents.sort((a, b) => {
+    if (a.start.getTime() === b.start.getTime()) {
+      if (a.end && b.end) {
+        return a.end.getTime() - b.end.getTime();
+      }
+      return 0;
+    }
+    return a.start.getTime() - b.start.getTime();
+  });
 
   return {
     events: resultingEvents,
