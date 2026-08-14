@@ -7,7 +7,7 @@ import { Calendar } from "@/types/calendar";
 
 const NUM_DAYS = 5;
 
-export default function Dashboard() {
+export default function CalendarPage() {
   const [calData, setCalData] = useState<Calendar | null | undefined>();
 
   useEffect(() => {
