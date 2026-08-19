@@ -30,7 +30,7 @@ export default function CalendarPage() {
   };
 
   const dayRanges = useMemo(() => {
-    let current = DateTime.now().setZone(TIMEZONE);
+    let current = DateTime.now();
     const ranges = [];
 
     for (let i = 0; i < NUM_DAYS; i++) {
@@ -58,8 +58,8 @@ export default function CalendarPage() {
         .map((ev) => {
           return {
             ...ev,
-            start: DateTime.fromJSDate(new Date(ev.start)).setZone(TIMEZONE),
-            end: ev.end ? DateTime.fromJSDate(new Date(ev.end)).setZone(TIMEZONE) : undefined,
+            start: DateTime.fromJSDate(new Date(ev.start), {zone: 'UTC'}),
+            end: ev.end ? DateTime.fromJSDate(new Date(ev.end), {zone: 'UTC'}) : undefined,
           };
         })
         .filter((event) => {
