@@ -64,6 +64,10 @@ export default function CalendarPage() {
         })
         .filter((event) => {
           const eventEnd = event.end ?? event.start;
+          console.log("event.start", event.start);
+          console.log("eventEnd", eventEnd);
+          console.log("range.start", range.start);
+          console.log("range.end", range.end);  
           return event.start <= range.end && eventEnd > range.start;
         });
       result.push({
