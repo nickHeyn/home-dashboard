@@ -63,7 +63,7 @@ export default function CalendarPage() {
         })
         .filter((event) => {
           const eventEnd = event.end ?? event.start;
-          return event.start < range.end && eventEnd > range.start;
+          return event.start <= range.end && eventEnd > range.start;
         });
       result.push({
         dayTitle: range.dayTitle,
