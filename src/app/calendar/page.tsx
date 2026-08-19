@@ -77,8 +77,12 @@ export default function CalendarPage() {
     return result;
   }, [dayRanges, calData]);
 
-  console.log(daysWithEvents);
+  console.log("calData", calData);
 
+  console.log("dayRanges", dayRanges);
+
+  console.log("daysWithEvents", daysWithEvents);
+  
   return (
     <main className=" font-serif h-screen">
       <div className="flex flex-row flex-1 w-full items-center justify-between py-16 px-1 sm:items-start h-full">
