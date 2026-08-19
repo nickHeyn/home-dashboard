@@ -6,6 +6,7 @@ import { CalDay, CalEvent } from "./types/calendar";
 import { Calendar } from "@/types/calendar";
 
 const NUM_DAYS = 5;
+const TIMEZONE = "America/Chicago";
 
 export default function CalendarPage() {
   const [calData, setCalData] = useState<Calendar | null | undefined>();
@@ -29,7 +30,7 @@ export default function CalendarPage() {
   };
 
   const dayRanges = useMemo(() => {
-    let current = DateTime.now();
+    let current = DateTime.now().setZone(TIMEZONE);
     const ranges = [];
 
     for (let i = 0; i < NUM_DAYS; i++) {
