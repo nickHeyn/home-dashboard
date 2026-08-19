@@ -35,7 +35,7 @@ export default function CalendarPage() {
 
     for (let i = 0; i < NUM_DAYS; i++) {
       const start = current.startOf("day");
-      const end = current.endOf("day");
+      const end = current.plus({days: 1}).startOf("day");
       ranges.push({
         start,
         end,
