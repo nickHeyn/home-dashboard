@@ -68,7 +68,7 @@ export default function CalendarPage() {
           console.log("eventEnd", eventEnd);
           console.log("range.start", range.start);
           console.log("range.end", range.end);  
-          return event.start <= range.end && eventEnd > range.start;
+          return event.start < range.end && eventEnd > range.start;
         });
       result.push({
         dayTitle: range.dayTitle,
