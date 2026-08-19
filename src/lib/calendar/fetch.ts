@@ -90,6 +90,8 @@ export async function getCalendarData(): Promise<Calendar> {
     return a.start.getTime() - b.start.getTime();
   });
 
+  console.log("resultingEvents", resultingEvents);
+
   return {
     events: resultingEvents,
   };
