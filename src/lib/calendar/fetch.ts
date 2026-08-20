@@ -23,6 +23,9 @@ function mapToCalendarEvent(
   const start = overrideStart ?? event.start;
   const end = overrideEnd ?? event.end;
 
+  console.log("start", event.start,)
+  console.log("end", event.end);
+
   return {
     name: event.summary.toString(),
     description: event.description?.toString(),
