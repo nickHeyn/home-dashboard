@@ -6,9 +6,9 @@ const TIMEZONE = "America/Chicago";
 const NUM_DAYS = 5;
 
 function getRangeStartTime(): Date {
-  const startOfChicagoToday = DateTime.now().setZone(TIMEZONE).startOf("day").toJSDate(); // Converts back to native JS Date object
-  startOfChicagoToday.setHours(0, 0, 0, 0);
-  return startOfChicagoToday;
+  const startTime = DateTime.now().startOf("day").toJSDate(); // Converts back to native JS Date object
+  startTime.setHours(0, 0, 0, 0);
+  return startTime;
 }
 
 function getRangeEndTime(startTime: Date): Date {

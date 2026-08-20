@@ -58,8 +58,8 @@ export default function CalendarPage() {
         .map((ev) => {
           return {
             ...ev,
-            start: DateTime.fromJSDate(new Date(ev.start), {zone: 'UTC'}),
-            end: ev.end ? DateTime.fromJSDate(new Date(ev.end), {zone: 'UTC'}) : undefined,
+            start: DateTime.fromJSDate(new Date(ev.start)),
+            end: ev.end ? DateTime.fromJSDate(new Date(ev.end)) : undefined,
           };
         })
         .filter((event) => {
