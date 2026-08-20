@@ -30,7 +30,7 @@ export default function CalendarPage() {
   };
 
   const dayRanges = useMemo(() => {
-    let current = DateTime.now();
+    let current = DateTime.now().setZone(TIMEZONE);
     const ranges = [];
 
     for (let i = 0; i < NUM_DAYS; i++) {
@@ -64,6 +64,15 @@ export default function CalendarPage() {
         })
         .filter((event) => {
           const eventEnd = event.end ?? event.start;
+          const isAllDayEvent = event.isAllDayEvent;
+          if (isAllDayEvent) {
+            // Compare UTC dates
+            const rangeUtcStart = range.start.toUTC().startOf("day");
+            const rangeUtcEnd = range.end.toUTC().startOf("day");
+            console.log("rangeUtcStart", rangeUtcStart);
+            console.log("rangeUtcEnd", rangeUtcEnd);
+            return event.start < rangeUtcEnd && eventEnd > rangeUtcStart;
+          }
 
           const result = event.start < range.end && eventEnd > range.start;
           if (result) {

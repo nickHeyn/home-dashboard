@@ -20,11 +20,23 @@ function mapToCalendarEvent(
   overrideStart?: Date,
   overrideEnd?: Date
 ): CalendarEvent {
-  const start = overrideStart ?? event.start;
-  const end = overrideEnd ?? event.end;
 
-  console.log("start", event.start,)
-  console.log("end", event.end);
+  let eventStart = event.start as Date;
+  let eventEnd = event.end as Date;
+
+  if (event.start.dateOnly) {
+    eventStart = DateTime.fromJSDate(event.start).toUTC().startOf("day").toJSDate();
+  }
+
+  if (event.end?.dateOnly) {
+    eventEnd = DateTime.fromJSDate(event.end).toUTC().startOf("day").toJSDate();
+  }
+
+  const start = overrideStart ?? eventStart;
+  const end = overrideEnd ?? eventEnd;
+
+  console.log("start", start);
+  console.log("end", end);
 
   return {
     name: event.summary.toString(),
