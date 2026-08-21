@@ -35,7 +35,7 @@ export default function CalendarPage() {
 
     for (let i = 0; i < NUM_DAYS; i++) {
       const start = current.startOf("day");
-      const end = current.plus({days: 1}).startOf("day");
+      const end = current.plus({ days: 1 }).startOf("day");
       ranges.push({
         start,
         end,
@@ -79,7 +79,7 @@ export default function CalendarPage() {
             console.log("event.start", event.start);
             console.log("eventEnd", eventEnd);
             console.log("range.start", range.start);
-            console.log("range.end", range.end);  
+            console.log("range.end", range.end);
           }
           return result;
         });
@@ -99,7 +99,7 @@ export default function CalendarPage() {
   console.log("dayRanges", dayRanges);
 
   console.log("daysWithEvents", daysWithEvents);
-  
+
   return (
     <main className=" font-serif h-screen">
       <div className="flex flex-row flex-1 w-full items-center justify-between py-16 px-1 sm:items-start h-full">

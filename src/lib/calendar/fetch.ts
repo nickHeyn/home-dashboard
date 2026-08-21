@@ -20,7 +20,6 @@ function mapToCalendarEvent(
   overrideStart?: Date,
   overrideEnd?: Date
 ): CalendarEvent {
-
   let eventStart = event.start as Date;
   let eventEnd = event.end as Date;
 
